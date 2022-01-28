@@ -17,7 +17,6 @@ class GameKeyboard extends StatelessWidget {
     double keyWidth = (maxWidth - 4) / keyboardRows[0].length - 4;
     return SizedBox(
       width: queryData.size.width > 400 ? 400 : double.infinity,
-      height: 200,
       child: Padding(
         padding: const EdgeInsets.all(2),
         child: Column(
