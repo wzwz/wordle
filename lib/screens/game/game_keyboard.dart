@@ -13,16 +13,21 @@ class GameKeyboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData = MediaQuery.of(context);
-    double keyWidth = (queryData.size.width - 4) / keyboardRows[0].length - 4;
-    return Padding(
-      padding: const EdgeInsets.all(2),
-      child: Column(
-        children: keyboardRows
-            .map((row) => GameKeyboardRow(
-                  keyboardRow: row,
-                  keyWidth: keyWidth,
-                ))
-            .toList(),
+    double maxWidth = queryData.size.width > 400 ? 400 : queryData.size.width;
+    double keyWidth = (maxWidth - 4) / keyboardRows[0].length - 4;
+    return SizedBox(
+      width: queryData.size.width > 400 ? 400 : double.infinity,
+      height: 200,
+      child: Padding(
+        padding: const EdgeInsets.all(2),
+        child: Column(
+          children: keyboardRows
+              .map((row) => GameKeyboardRow(
+                    keyboardRow: row,
+                    keyWidth: keyWidth,
+                  ))
+              .toList(),
+        ),
       ),
     );
   }
