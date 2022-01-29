@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wordle/blocs/ad/ad.dart';
 import 'package:wordle/blocs/game/game.dart';
 import 'package:wordle/utils/constants.dart';
 
@@ -24,6 +25,9 @@ class GameSettingsDialog extends StatelessWidget {
               InkWell(
                 onTap: () {
                   context.read<GameBloc>().add(RestartGame());
+                  if (adsEnabled) {
+                    context.read<AdBloc>().add(ShowInterstitialAd());
+                  }
                   Navigator.of(context).pop();
                 },
                 child: Container(
@@ -48,6 +52,9 @@ class GameSettingsDialog extends StatelessWidget {
               InkWell(
                 onTap: () {
                   context.read<GameBloc>().add(NewGame());
+                  if (adsEnabled) {
+                    context.read<AdBloc>().add(ShowInterstitialAd());
+                  }
                   Navigator.of(context).pop();
                 },
                 child: Container(

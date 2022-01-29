@@ -23,7 +23,7 @@ class GameHelpDialog extends StatelessWidget {
             children: [
               const Text(
                 'How to play?',
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
                   fontSize: 26,
                   fontWeight: FontWeight.bold,

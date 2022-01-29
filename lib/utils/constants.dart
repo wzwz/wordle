@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const bool adsEnabled = true;
+
 class ThemeDefault {
   static const colorBackground = Colors.black;
   static const colorPrimary = Colors.blue;

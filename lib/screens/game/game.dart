@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:wordle/blocs/ad/ad.dart';
 import 'package:wordle/blocs/game/game.dart';
 import 'package:wordle/models/game_model.dart';
 import 'package:wordle/screens/game/game_keyboard.dart';
 import 'package:wordle/screens/game/guess_row.dart';
+import 'package:wordle/utils/ad_helper.dart';
 import 'package:wordle/utils/constants.dart';
 import 'package:wordle/widgets/dialogs/game_error.dart';
 import 'package:wordle/widgets/dialogs/game_help.dart';
@@ -22,6 +25,56 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
+  late BannerAd _bannerAd;
+  bool _isBannerAdReady = false;
+  InterstitialAd? _interstitialAd;
+
+  @override
+  void initState() {
+    super.initState();
+    _bannerAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print('Failed to load a banner ad: ${err.message}');
+          _isBannerAdReady = false;
+          ad.dispose();
+        },
+      ),
+    );
+
+    _bannerAd.load();
+    _loadInterstitialAd();
+  }
+
+  void _loadInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: AdHelper.interstitialAdUnitId,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          _interstitialAd = ad;
+
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              context.read<AdBloc>().add(CloseInterstitialAd());
+            },
+          );
+        },
+        onAdFailedToLoad: (err) {
+          print('Failed to load an interstitial ad: ${err.message}');
+        },
+      ),
+    );
+  }
+
   Future<void> _showGameDialog(Widget content) async {
     await showGeneralDialog(
       context: context,
@@ -57,7 +110,6 @@ class _GameScreenState extends State<GameScreen> {
 
   Future<void> _showHelpDialog() async {
     await _showGameDialog(const GameHelpDialog());
-    context.read<GameBloc>().add(ErrorDismissed());
   }
 
   Future<void> _showSettingsDialog() async {
@@ -91,6 +143,17 @@ class _GameScreenState extends State<GameScreen> {
             if (state is GameLost) {
               print('game lost');
               _showGameLostDialog();
+            }
+          },
+        ),
+        BlocListener<AdBloc, AdState>(
+          listener: (_, state) {
+            if (state is NoAdShown) {
+              _loadInterstitialAd();
+            }
+            if (state is InterstitialAdShown) {
+              print('show interstitial ad');
+              _interstitialAd?.show();
             }
           },
         ),
@@ -137,7 +200,10 @@ class _GameScreenState extends State<GameScreen> {
                   Expanded(
                     child: FittedBox(
                       child: Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 20,
+                        ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -154,6 +220,15 @@ class _GameScreenState extends State<GameScreen> {
                     ),
                   ),
                   GameKeyboard(),
+                  if (_isBannerAdReady && adsEnabled)
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: SizedBox(
+                        width: _bannerAd.size.width.toDouble(),
+                        height: _bannerAd.size.height.toDouble(),
+                        child: AdWidget(ad: _bannerAd),
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -161,5 +236,12 @@ class _GameScreenState extends State<GameScreen> {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _bannerAd.dispose();
+    _interstitialAd?.dispose();
+    super.dispose();
   }
 }

@@ -27,7 +27,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         gameModel: GameModel(answer: await _repository.getNewGame())));
   }
 
-  Future<void> _onRestartGame(RestartGame event, Emitter<GameState> emit) async {
+  Future<void> _onRestartGame(
+      RestartGame event, Emitter<GameState> emit) async {
     emit(GameReady(
         gameModel: GameModel(answer: await _repository.getCurrentGame())));
   }
