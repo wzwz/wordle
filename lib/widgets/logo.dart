@@ -20,6 +20,7 @@ class Logo extends StatelessWidget {
       'D': ThemeDefault.colorCorrect,
       'L': ThemeDefault.colorPartiallyCorrect,
       'E': ThemeDefault.colorWrong,
+      'Y': ThemeDefault.colorCorrect,
     };
     List<Widget> logo = [];
     logoData.forEach((letter, color) {

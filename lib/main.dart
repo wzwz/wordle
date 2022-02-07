@@ -6,7 +6,6 @@ import 'package:wordle/blocs/game/game.dart';
 import 'package:wordle/repositories/game_repository/local_game_repository.dart';
 import 'package:wordle/screens/game/game.dart';
 import 'package:wordle/screens/splash.dart';
-
 import 'blocs/ad/ad.dart';
 
 void main() async {
@@ -36,7 +35,7 @@ class App extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'WORDLE',
+        title: 'Wordley - Unlimited Plays',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           brightness: Brightness.dark,
