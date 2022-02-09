@@ -1,12 +1,14 @@
 import 'package:equatable/equatable.dart';
 
 class GameModel extends Equatable {
+  final bool finished;
   final String answer;
   final int currentAttempt;
   final List<String> guessedWords, correct, partiallyCorrect, wrong;
   final List<List<int>> guessResults;
 
   const GameModel({
+    this.finished = false,
     this.answer = '',
     this.currentAttempt = 1,
     this.guessedWords = const [],
@@ -42,5 +44,5 @@ class GameModel extends Equatable {
 
   @override
   String toString() =>
-      'GameModel { answer: $answer, currentAttempt: $currentAttempt, guessedWords: $guessedWords, correct: $correct, partiallyCorrect: $partiallyCorrect, wrong: $wrong, guessResults: $guessResults }';
+      'GameModel { finished: $finished, answer: $answer, currentAttempt: $currentAttempt, guessedWords: $guessedWords, correct: $correct, partiallyCorrect: $partiallyCorrect, wrong: $wrong, guessResults: $guessResults }';
 }

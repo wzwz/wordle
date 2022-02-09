@@ -194,5 +194,17 @@
 			<string>3qcr597p9d.skadnetwork</string>
 		</dict>
 	</array>
+	<!-- Google Sign-in Section -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.60076541898-o0tevm2dplbbqoit4jfd3m1d3co2t3q5</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

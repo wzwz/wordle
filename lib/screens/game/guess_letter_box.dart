@@ -28,9 +28,12 @@ class GuessLetterBox extends StatelessWidget {
             child: Text(
               text,
               style: const TextStyle(
+                fontFamily: 'Roboto',
                 fontWeight: FontWeight.bold,
                 fontSize: 28,
                 color: Colors.white,
+                fontStyle: FontStyle.normal,
+                decoration: TextDecoration.none,
               ),
             ),
           ),

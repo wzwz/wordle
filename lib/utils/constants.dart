@@ -4,7 +4,7 @@ const bool adsEnabled = true;
 
 class ThemeDefault {
   static const colorBackground = Colors.black;
-  static const colorPrimary = Colors.blue;
+  static const colorPrimary = Colors.green;
   static const colorOnPrimary = Colors.white;
   static const colorError = Colors.red;
 
@@ -18,6 +18,14 @@ class ThemeDefault {
   static const colorGuessBoxBorder = Color(0xFF757575);
 
   static const double guessBoxBorderWidth = 2;
+
+  static const InputDecoration inputStyle = InputDecoration(
+    border: OutlineInputBorder(),
+    filled: true,
+    fillColor: colorWrong,
+    focusColor: colorCorrect,
+    hoverColor: colorCorrect,
+  );
 }
 
 Future<void> showGameDialog({
